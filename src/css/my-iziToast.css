@@ -1,0 +1,29 @@
+.iziToast {
+    max-height: 60px;
+    padding: 0 0 15px 0;
+}
+
+.iziToast>.iziToast-close {
+    margin: 0 20px 0 0;
+    display: inline-block;
+    width: 25px;
+    background: url('../img/Vector.svg') no-repeat 50% 50%;
+    opacity: 1;
+}
+
+.iziToast>.iziToast-body {
+    margin: 0 0 0 25px;
+}
+
+.iziToast>.iziToast-body .iziToast-text {
+    margin: -5px 0 0;
+}
+
+.iziToast>.iziToast-body .iziToast-message {
+    padding-right: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    margin-right: 20px;
+    margin-left: -5px;
+}

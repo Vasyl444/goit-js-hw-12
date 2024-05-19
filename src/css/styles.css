@@ -5,16 +5,12 @@
   |============================
 */
 @import url('./reset.css');
-@import url('./vite-promo.css');
-@import url('./header.css');
+@import "izitoast/dist/css/iziToast.min.css";
+@import "simplelightbox/dist/simple-lightbox.min.css";
+@import url('./my-iziToast.css');
+@import url('./my-style.css');
 
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color: #242424;
   background-color: rgba(255, 255, 255, 0.87);
 
   font-synthesis: none;

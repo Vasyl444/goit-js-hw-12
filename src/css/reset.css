@@ -7,16 +7,7 @@ h5,
 h6,
 p {
   margin: 0;
-}
-
-p:last-child {
-  margin-bottom: 0;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  padding-left: 0;
 }
 
 a {
@@ -30,6 +21,19 @@ button {
 
 img {
   display: block;
-  max-width: 100%;
+  width: 100%;
   height: auto;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
