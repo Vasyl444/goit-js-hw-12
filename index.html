@@ -7,8 +7,8 @@
     <title>JS: homework 12</title>
     
     <script type="module" crossorigin src="/goit-js-hw-12/commonHelpers.js"></script>
-    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-f33cd494.js">
-    <link rel="stylesheet" href="/goit-js-hw-12/assets/index-c9799785.css">
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-4d51048b.js">
+    <link rel="stylesheet" href="/goit-js-hw-12/assets/index-ba0f0a75.css">
   </head>
   <body>
 <section class="form">
@@ -20,9 +20,12 @@
 <section class="gallery">
   <ul class="gallery-list">
   </ul>
-  <button class="gallery-button" type="submit">Load more</button>
+  <div class="loader-wrapper">
+  <button class="gallery-button is-hidden" type="submit">Load more</button>
+  <p class="message is-hidden">We're sorry, but you've reached the end of search results.</p>
+  <span class="loader is-hidden"></span>
+  </div>
 </section>
-<span class="loader is-hidden"></span>
     
   </body>
 </html>
