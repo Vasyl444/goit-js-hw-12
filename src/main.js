@@ -1,12 +1,13 @@
 import iziToast from "izitoast";
 import SimpleLightbox from "simplelightbox";
 import { markup}  from "./js/render-functions";
-import { imagesUrl } from "./js/pixabay-api";
 import { fetchImage } from "./js/pixabay-api";
-import axios from 'axios';
+export const galleryButton = document.querySelector('.gallery-button');
+export const galleryList = document.querySelector('.gallery-list');
+export const loader = document.querySelector('.loader');
 const input = document.querySelector('.search-input');
-const gallery = document.querySelector('.gallery-list');
-const loader = document.querySelector('.loader');
+const message = document.querySelector('.message');
+
 let newGallery = new SimpleLightbox('.gallery a', {
                         overlayOpacity: 0.8,
                         captionSelector: 'img',
@@ -14,21 +15,25 @@ let newGallery = new SimpleLightbox('.gallery a', {
                         captionPosition: 'bottom',
                         captionsData: "alt",
                         className: 'simple-lightbox',
-                    }); 
+                    });
 const searchForm = document.querySelector('.search-form');
 
-searchForm.addEventListener('submit', (event) => {
+searchForm.addEventListener('submit', async (event) => {
     event.preventDefault();
+    let nowPage = 1;
+    message.classList.add('is-hidden');
     if (input.value.trim() === "") {
         searchForm.reset();
         return
     } else {
-        gallery.innerHTML = "";
         loader.classList.remove('is-hidden');
-
-        fetchImage(imagesUrl(input.value))
-            .then(value => {
-                if (value.total === 0) {
+        galleryList.innerHTML = "";        
+        galleryButton.classList.add('is-hidden');
+        fetchImage(input.value, nowPage)
+            .then(response => {
+                console.log(fetchImage);
+                if (response.length === 0) {
+                    input.value = '';
                     iziToast.show({
                         id: null,
                         class: '.izi-toast',
@@ -54,7 +59,7 @@ searchForm.addEventListener('submit', (event) => {
                         position: 'topRight',
                         target: '',
                         targetFirst: true,
-                        timeout: 300000,
+                        timeout: 3000,
                         rtl: false,
                         animateInside: true,
                         drag: true,
@@ -77,18 +82,83 @@ searchForm.addEventListener('submit', (event) => {
                         onClosing: function () { },
                         onClosed: function () { }
                     });
-                } else {
-                    console.log(value.totalHits);
-                    gallery.insertAdjacentHTML('afterbegin', markup(value));
+                } else if (response.length < 15) {
+                    message.classList.remove('is-hidden');
+                    galleryButton.classList.add('is-hidden');
+                    input.value = '';
+                    searchForm.reset();
+                    galleryList.insertAdjacentHTML('afterbegin', markup(response));
                     newGallery.refresh();
-                    newGallery.on('open.simplelightbox');                
-                }
+                    newGallery.on('open.simplelightbox');
+                    input.value = '';
+                } else {
+                    message.classList.add('is-hidden');
+                    galleryList.insertAdjacentHTML('afterbegin', markup(response));
+                    newGallery.refresh();
+                    newGallery.on('open.simplelightbox');
+                    galleryButton.classList.remove('is-hidden');
+                    galleryButton.addEventListener('click', async () => { 
+        loader.classList.remove('is-hidden');
+                        galleryButton.classList.add('is-hidden');
+                        nowPage += 1;
+        fetchImage(input.value, nowPage)
+            .then(response => {
+                console.log(response);
+                if (response.length < 15) {
+                    message.classList.remove('is-hidden');
+                    galleryButton.classList.add('is-hidden');
+                    input.value = '';
+                    searchForm.reset();
+                } else {
+                    galleryList.insertAdjacentHTML('beforeend', markup(response));
+                    newGallery.refresh();
+                    newGallery.on('open.simplelightbox');
+                    galleryButton.classList.remove('is-hidden');
+                }  
             })
-            .catch(console.error())
-            .finally(() => {
+            .catch(error => { console.error() })
+        .finally(() => {
                 loader.classList.add('is-hidden');
-                input.value = '';
-                searchForm.reset();
+    })
+    }
+
+)
+                }
+                loader.classList.add('is-hidden');
+                })
+            .catch(error => { console.error() })
+            .finally(() => {
+                //loader.classList.add('is-hidden');
+                //input.value = '';
+                //searchForm.reset();
     })
     }   
-}); 
+    loader.classList.add('is-hidden');
+                //input.value = '';
+               // searchForm.reset();
+});
+/*galleryButton.addEventListener('click', async () => { 
+        loader.classList.remove('is-hidden');
+    galleryButton.classList.add('is-hidden');
+        fetchImage(input.value, nowPage)
+            .then(response => {
+                console.log(response);
+                if (response.length < 15) {
+                    message.classList.remove('is-hidden');
+                    galleryButton.classList.add('is-hidden');
+                    input.value = '';
+                    searchForm.reset();
+                } else {
+                    galleryList.insertAdjacentHTML('beforeend', markup(response));
+                    newGallery.refresh();
+                    newGallery.on('open.simplelightbox');
+                    galleryButton.classList.remove('is-hidden');
+                }  
+            })
+            .catch(error => { console.error() })
+        .finally(() => {
+                loader.classList.add('is-hidden');
+    })
+    }
+
+)*/

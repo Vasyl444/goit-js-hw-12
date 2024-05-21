@@ -64,15 +64,22 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .gallery-button {
     align-self: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
 }
+
 .gallery-list {
     display: grid;
     grid-gap: 10px;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: auto;
 }
+
 .gallery-list .gallery-image {
     display: block;
     min-width: 100%;
@@ -80,6 +87,7 @@ body {
     object-fit: cover;
     padding: 0;
 }
+
 .title {
     padding: 0;
     font-weight: 600;
@@ -101,4 +109,25 @@ body {
     justify-content: space-between;
     padding: 0 5px;
     margin: 0;
+}
+.loader-wrapper{
+    position: relative;
+}
+
+.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.message {
+    border: 1px solid #808080;
+    border-radius: 4px;
+    background-color: rgb(192, 182, 182);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    padding: 0 5px;
+    width: 420px;
 }

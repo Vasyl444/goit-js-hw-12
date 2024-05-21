@@ -1,8 +1,6 @@
 export const markup = function madeMarkup(images) {
-    const imagesArray = images.hits;
-    console.log("xxxx", images);
     const galleryItems = [];
-    imagesArray.forEach(image => {
+    images.forEach(image => {
         galleryItems.push(`<li class="gallery-item">
             <a class="gallery-link" href="${image.largeImageURL}">
             <div class="wrapper">
