@@ -2,6 +2,7 @@ import iziToast from "izitoast";
 import SimpleLightbox from "simplelightbox";
 import { markup}  from "./js/render-functions";
 import { fetchImage } from "./js/pixabay-api";
+import { imageQuantity } from "./js/pixabay-api";
 export const galleryButton = document.querySelector('.gallery-button');
 export const galleryList = document.querySelector('.gallery-list');
 export const loader = document.querySelector('.loader');
@@ -9,6 +10,8 @@ const input = document.querySelector('.search-input');
 const message = document.querySelector('.message');
 const searchForm = document.querySelector('.search-form');
 let newPage = 1;
+let rect;
+let totalPage;
 let newGallery = new SimpleLightbox('.gallery a', {
                         overlayOpacity: 0.8,
                         captionSelector: 'img',
@@ -17,7 +20,6 @@ let newGallery = new SimpleLightbox('.gallery a', {
                         captionsData: "alt",
                         className: 'simple-lightbox',
                     });
-
 searchForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     newPage = 1;
@@ -31,6 +33,9 @@ searchForm.addEventListener('submit', async (event) => {
         galleryButton.classList.add('is-hidden');
         await fetchImage(input.value, newPage)
             .then(response => {
+                console.log(response);
+                totalPage = Math.ceil(response.total / imageQuantity);
+                console.log(totalPage);
                 if (response.hits.length === 0) {
                     input.value = '';
                     iziToast.show({
@@ -81,53 +86,64 @@ searchForm.addEventListener('submit', async (event) => {
                         onClosing: function () { },
                         onClosed: function () { }
                     });
-                    }  else if (response.hits.length < 15) { 
-                        galleryButton.classList.add('is-hidden');
-                        searchForm.reset();
-                        galleryList.insertAdjacentHTML('afterbegin', markup(response.hits));
-                        newGallery.refresh();
+                } else if (newPage === totalPage) {
+                    galleryButton.classList.add('is-hidden');
+                    searchForm.reset();
+                    galleryList.insertAdjacentHTML('afterbegin', markup(response.hits));
+                    newGallery.refresh();
                     newGallery.on('open.simplelightbox');
                     message.classList.remove('is-hidden');
-                        input.value = '';
+                    input.value = '';
                 } else {
                     message.classList.add('is-hidden');
                     galleryList.insertAdjacentHTML('afterbegin', markup(response.hits));
                     newGallery.refresh();
                     newGallery.on('open.simplelightbox');
                     galleryButton.classList.remove('is-hidden');
-                    return newPage = 1;
+                    const galleryItem = document.querySelector('.gallery-item');
+                    rect = galleryItem.getBoundingClientRect().height;
+                    newPage = 1;
                 }
             })
+            .catch(error => error.status);
     }
-    loader.classList.add('is-hidden')
+    loader.classList.add('is-hidden');
 })
-           // .catch(error => { console.error() })
-
-
-
 galleryButton.addEventListener('click', async () => {
-                    loader.classList.remove('is-hidden');
-                    galleryButton.classList.add('is-hidden');
-                    newPage += 1;
-                    await fetchImage(input.value, newPage)
-                        .then(response => {
-                            if (response.hits.length < 15) {
-                                galleryList.insertAdjacentHTML('beforeend', markup(response.hits));
-                                message.classList.remove('is-hidden');
-                                galleryButton.classList.add('is-hidden');
-                                input.value = '';
-                                searchForm.reset();
-                            } else {
-                                galleryList.insertAdjacentHTML('beforeend', markup(response.hits));
-                                newGallery.refresh();
-                                newGallery.on('open.simplelightbox');
-                                galleryButton.classList.remove('is-hidden');
-                            }
-                        })
-                        .catch(error => { error.statusText})
-                        .finally(() => {
-                            loader.classList.add('is-hidden');
-                        })
+    loader.classList.remove('is-hidden');
+    galleryButton.classList.add('is-hidden');
+    newPage += 1;
+    window.scrollBy({
+  top: rect * 2,
+  left: 0,
+  behavior: "smooth",
+});
+    await fetchImage(input.value, newPage)
+        .then(response => {
+            if (newPage === totalPage) {
+                galleryList.insertAdjacentHTML('beforeend', markup(response.hits));
+                window.scrollBy({
+  top: rect * 2,
+  left: 0,
+  behavior: "smooth",
+});
+                message.classList.remove('is-hidden');
+                galleryButton.classList.add('is-hidden');
+                input.value = '';
+                searchForm.reset();
+            } else {
+                galleryList.insertAdjacentHTML('beforeend', markup(response.hits));
+                window.scrollBy({
+  top: rect * 2,
+  left: 0,
+  behavior: "smooth",
+});
+                newGallery.refresh();
+                newGallery.on('open.simplelightbox');
+                galleryButton.classList.remove('is-hidden');
+            }
+        })
+        .catch(error => { error.status });
                     loader.classList.add('is-hidden');
                 }
-                )
+)

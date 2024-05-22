@@ -88,6 +88,10 @@ body {
     padding: 0;
 }
 
+.gallery-item {
+    height: 219px;
+}
+
 .title {
     padding: 0;
     font-weight: 600;

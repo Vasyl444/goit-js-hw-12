@@ -1,6 +1,5 @@
 import axios from 'axios';
-const imageQuantity = 15;
-let totalPage = 0;
+export const imageQuantity = 15;
 export async function fetchImage(valueFromInput, page) {
   let result = [];
   console.log(page);
