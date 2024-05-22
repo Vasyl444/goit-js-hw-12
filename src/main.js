@@ -7,7 +7,8 @@ export const galleryList = document.querySelector('.gallery-list');
 export const loader = document.querySelector('.loader');
 const input = document.querySelector('.search-input');
 const message = document.querySelector('.message');
-
+const searchForm = document.querySelector('.search-form');
+let newPage = 1;
 let newGallery = new SimpleLightbox('.gallery a', {
                         overlayOpacity: 0.8,
                         captionSelector: 'img',
@@ -16,23 +17,21 @@ let newGallery = new SimpleLightbox('.gallery a', {
                         captionsData: "alt",
                         className: 'simple-lightbox',
                     });
-const searchForm = document.querySelector('.search-form');
 
 searchForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    let nowPage = 1;
+    newPage = 1;
     message.classList.add('is-hidden');
     if (input.value.trim() === "") {
         searchForm.reset();
         return
     } else {
         loader.classList.remove('is-hidden');
-        galleryList.innerHTML = "";        
+        galleryList.innerHTML = "";
         galleryButton.classList.add('is-hidden');
-        fetchImage(input.value, nowPage)
+        await fetchImage(input.value, newPage)
             .then(response => {
-                console.log(fetchImage);
-                if (response.length === 0) {
+                if (response.hits.length === 0) {
                     input.value = '';
                     iziToast.show({
                         id: null,
@@ -82,83 +81,53 @@ searchForm.addEventListener('submit', async (event) => {
                         onClosing: function () { },
                         onClosed: function () { }
                     });
-                } else if (response.length < 15) {
-                    message.classList.remove('is-hidden');
-                    galleryButton.classList.add('is-hidden');
-                    input.value = '';
-                    searchForm.reset();
-                    galleryList.insertAdjacentHTML('afterbegin', markup(response));
-                    newGallery.refresh();
+                    }  else if (response.hits.length < 15) { 
+                        galleryButton.classList.add('is-hidden');
+                        searchForm.reset();
+                        galleryList.insertAdjacentHTML('afterbegin', markup(response.hits));
+                        newGallery.refresh();
                     newGallery.on('open.simplelightbox');
-                    input.value = '';
+                    message.classList.remove('is-hidden');
+                        input.value = '';
                 } else {
                     message.classList.add('is-hidden');
-                    galleryList.insertAdjacentHTML('afterbegin', markup(response));
+                    galleryList.insertAdjacentHTML('afterbegin', markup(response.hits));
                     newGallery.refresh();
                     newGallery.on('open.simplelightbox');
                     galleryButton.classList.remove('is-hidden');
-                    galleryButton.addEventListener('click', async () => { 
-        loader.classList.remove('is-hidden');
-                        galleryButton.classList.add('is-hidden');
-                        nowPage += 1;
-        fetchImage(input.value, nowPage)
-            .then(response => {
-                console.log(response);
-                if (response.length < 15) {
-                    message.classList.remove('is-hidden');
-                    galleryButton.classList.add('is-hidden');
-                    input.value = '';
-                    searchForm.reset();
-                } else {
-                    galleryList.insertAdjacentHTML('beforeend', markup(response));
-                    newGallery.refresh();
-                    newGallery.on('open.simplelightbox');
-                    galleryButton.classList.remove('is-hidden');
-                }  
-            })
-            .catch(error => { console.error() })
-        .finally(() => {
-                loader.classList.add('is-hidden');
-    })
-    }
-
-)
+                    return newPage = 1;
                 }
-                loader.classList.add('is-hidden');
-                })
-            .catch(error => { console.error() })
-            .finally(() => {
-                //loader.classList.add('is-hidden');
-                //input.value = '';
-                //searchForm.reset();
-    })
-    }   
-    loader.classList.add('is-hidden');
-                //input.value = '';
-               // searchForm.reset();
-});
-/*galleryButton.addEventListener('click', async () => { 
-        loader.classList.remove('is-hidden');
-    galleryButton.classList.add('is-hidden');
-        fetchImage(input.value, nowPage)
-            .then(response => {
-                console.log(response);
-                if (response.length < 15) {
-                    message.classList.remove('is-hidden');
-                    galleryButton.classList.add('is-hidden');
-                    input.value = '';
-                    searchForm.reset();
-                } else {
-                    galleryList.insertAdjacentHTML('beforeend', markup(response));
-                    newGallery.refresh();
-                    newGallery.on('open.simplelightbox');
-                    galleryButton.classList.remove('is-hidden');
-                }  
             })
-            .catch(error => { console.error() })
-        .finally(() => {
-                loader.classList.add('is-hidden');
-    })
     }
+    loader.classList.add('is-hidden')
+})
+           // .catch(error => { console.error() })
 
-)*/
+
+
+galleryButton.addEventListener('click', async () => {
+                    loader.classList.remove('is-hidden');
+                    galleryButton.classList.add('is-hidden');
+                    newPage += 1;
+                    await fetchImage(input.value, newPage)
+                        .then(response => {
+                            if (response.hits.length < 15) {
+                                galleryList.insertAdjacentHTML('beforeend', markup(response.hits));
+                                message.classList.remove('is-hidden');
+                                galleryButton.classList.add('is-hidden');
+                                input.value = '';
+                                searchForm.reset();
+                            } else {
+                                galleryList.insertAdjacentHTML('beforeend', markup(response.hits));
+                                newGallery.refresh();
+                                newGallery.on('open.simplelightbox');
+                                galleryButton.classList.remove('is-hidden');
+                            }
+                        })
+                        .catch(error => { error.statusText})
+                        .finally(() => {
+                            loader.classList.add('is-hidden');
+                        })
+                    loader.classList.add('is-hidden');
+                }
+                )
