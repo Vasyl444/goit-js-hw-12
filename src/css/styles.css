@@ -5,8 +5,8 @@
   |============================
 */
 @import url('./reset.css');
-@import "izitoast/dist/css/iziToast.min.css";
-@import "simplelightbox/dist/simple-lightbox.min.css";
+@import 'izitoast/dist/css/iziToast.min.css';
+@import 'simplelightbox/dist/simple-lightbox.min.css';
 @import url('./my-iziToast.css');
 @import url('./loader.css');
 @import url('./my-style.css');

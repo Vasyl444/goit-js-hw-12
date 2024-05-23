@@ -1,137 +1,137 @@
 body {
-    font-family: "Montserrat", sans-serif;
-    color: #2E2F42;
-    background-color: #FFFFFF;
-    font-style: normal;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  color: #2e2f42;
+  background-color: #ffffff;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
 }
 
 .form {
-    margin: 15px 0;
+  margin: 15px 0;
 }
 .search-form {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
-.search-button, 
+.search-button,
 .gallery-button {
-    color:#FFFFFF;
-    background-color: #4E75FF;
-    border: none;
-    border-radius: 8px;
-    height: 40px;
-    padding: 0 16px;
-    font-family: "Montserrat", sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.5;
-    letter-spacing: 0.04em;
+  color: #ffffff;
+  background-color: #4e75ff;
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  padding: 0 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
 }
 
 .search-button:hover,
 .gallery-button:hover {
-    background-color: #6C8CFF;
+  background-color: #6c8cff;
 }
 
 .search-input {
-    width: 272px;
-    height: 40px;
-    font-family: "Montserrat", sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.5;
-    letter-spacing: 0.04em;
-    padding: 0 0 0 8px;
-    border-radius: 4px;
-    color: #808080;
-    border: 1px solid #808080;
+  width: 272px;
+  height: 40px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  padding: 0 0 0 8px;
+  border-radius: 4px;
+  color: #808080;
+  border: 1px solid #808080;
 }
 
 .search-input:hover {
-    border-color: #000000;
+  border-color: #000000;
 }
 
 .search-input:focus {
-    border-color: #4E75FF;
-    color: #2E2F42;
-    outline: none;
+  border-color: #4e75ff;
+  color: #2e2f42;
+  outline: none;
 }
 
 .gallery {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .gallery-button {
-    align-self: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
+  align-self: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
 }
 
 .gallery-list {
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: auto;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
 }
 
 .gallery-list .gallery-image {
-    display: block;
-    min-width: 100%;
-    height: 170px;
-    object-fit: cover;
-    padding: 0;
+  display: block;
+  min-width: 100%;
+  height: 170px;
+  object-fit: cover;
+  padding: 0;
 }
 
 .gallery-item {
-    height: 219px;
+  height: 219px;
 }
 
 .title {
-    padding: 0;
-    font-weight: 600;
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    color: #2E2F42;
-    margin: 0;
-    align-items: center;
+  padding: 0;
+  font-weight: 600;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  color: #2e2f42;
+  margin: 0;
+  align-items: center;
 }
 
-.title>span {
-    font-weight: 400;
+.title > span {
+  font-weight: 400;
 }
 
 .title-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0 5px;
-    margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 5px;
+  margin: 0;
 }
-.loader-wrapper{
-    position: relative;
+.loader-wrapper {
+  position: relative;
 }
 
 .is-hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .message {
-    border: 1px solid #808080;
-    border-radius: 4px;
-    background-color: rgb(192, 182, 182);
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 6;
-    padding: 0 5px;
-    width: 420px;
+  border: 1px solid #808080;
+  border-radius: 4px;
+  background-color: rgb(192, 182, 182);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  padding: 0 5px;
+  width: 420px;
 }

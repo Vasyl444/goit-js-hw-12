@@ -1,7 +1,7 @@
 export const markup = function madeMarkup(images) {
-    const galleryItems = [];
-    images.forEach(image => {
-        galleryItems.push(`<li class="gallery-item">
+  const galleryItems = [];
+  images.forEach(image => {
+    galleryItems.push(`<li class="gallery-item">
             <a class="gallery-link" href="${image.largeImageURL}">
             <div class="wrapper">
             <img class="gallery-image" src="${image.webformatURL}" alt="${image.tags}">
@@ -14,6 +14,6 @@ export const markup = function madeMarkup(images) {
             </div>
             </a>
             </li>`);
-        });
-    return galleryItems.join("");
+  });
+  return galleryItems.join('');
 };
